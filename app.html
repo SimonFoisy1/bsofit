@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SIFO - régime</title>
+<style>
+body {background-color: rgba(217, 225, 227, 0.99);}
+label {width:125px;display:inline-block;text-align: right;}
+.questions{height: 170px;width: 350px;background-color: #b0e0e6;border-radius: 0px 15px 15px 15px;border-style: solid;
+border-color: #6a9ef1;margin-top: -3px}
+.calories{height: 40px;width: 350px;background-color: powderblue;margin-top:10px;border-radius:15px;border-style: solid;
+border-color:#6a9ef1 ;}
+.calories2{margin-left:20px;white-space: nowrap;margin-top:10px}
+.metrique{height: 30px;width: 100px;background-color: powderblue;border-radius: 15px 15px 0px 0px;outline: 0;border: none;
+border-style: solid solid solid solid;border-color: #6a9ef1 #6a9ef1 #b0e0e6 #6a9ef1;}
+.imperial{height: 30px;width: 100px;background-color: powderblue;border-radius: 15px 15px 0px 0px;outline: 0;border:none;
+border-style: solid solid solid solid;border-color: #6a9ef1 #6a9ef1 #6a9ef1 #6a9ef1;}
+.calculer{margin-left:200px;margin-top: 5px}
+.ligne{height: 5px;width: 3px;background-color:#6a9ef1;margin-top: -169px;margin-left:-3px;position:absolute}
+.pouce{margin-top: -224px;margin-left:9px;position:absolute;width: 60px}
+.pouce2{margin-top: -224px;margin-left:-118px;position:absolute;}
+.erreur4{margin-top: -222px;margin-left:-39px;position:absolute;color:red}
+</style>
+</head>
+<body >
+<button class="metrique" id="metrique" onclick="metrique()">métrique</button>
+<button class="imperial" id="imperial" onclick="imperial()">imperial</button>
+<div class="questions">
+  <label style="margin-left:30px;">Homme</label><input type="radio" name="Sexe" id="Homme" checked="checked" value=0 >
+  <label style="margin-left:-10px;">Femme</label><input type="radio" name="Sexe" id="Femme" value=1 >
+
+  <br />
+
+  <label id="P2">Poids (Kg) :</label>
+  <input name="P" id="P" autocomplete='off' size="28"><label style="color:#ff0000; margin-left:-115px;" id="erreur1" ></label>
+
+  <br />
+
+  <label id="T2">Taille (cm) :</label>
+  <input name="T" autocomplete='off' id="T" size="28"><label style="color:#ff0000; margin-left:-115px;" id="erreur2"></label>
+
+  <br />
+
+  <label>Age :</label>
+  <input name="A" autocomplete='off' id="A" size="28" ><label style="color:#ff0000; margin-left:-115px;" id="erreur3"></label>
+
+  <br/>
+
+  <label>Niveau d'activité :</label>
+  <select name="N" id="N" style="width: 210px" >
+          <option value=1 >négligeable</option>
+          <option value=1.1>1-3 j/sem (faible intensité)</option>
+          <option value=1.2>1-3 j/sem (intensité modéré)</option>
+          <option value=1.3>3-5 j/sem (faible intensité)</option>
+          <option value=1.4>3-5 j/sem (intensité modéré)</option>
+          <option value=1.5>6-7 j/sem (faible intensité)</option>
+          <option value=1.6>6-7 j/sem (intensité modéré)</option>
+  </select>
+
+  <br/>
+
+  <label>objectif :</label>
+  <select name="O" id="O" style="width: 210px">
+          <option value=1>Conserver</option>
+          <option value=0.85>Maigrir</option>
+          <option value=1.15>Prise de masse</option>
+  </select>
+
+  <br/>
+
+  <label>Aliments :</label>
+  <select name="Al" id="Al" style="width: 210px">
+          <option value="Poulet (jour 1)">Poulet (jour 1)</option>
+          <option value="Boeuf (jour 2)">Boeuf (jour 2)</option>
+          <option value="Poisson (jour 3)">Poisson (jour 3)</option>
+          <option value="Végé (jour 4)">Végé (jour 4)</option>
+  </select>
+
+  <br />
+
+  <button class="calculer"onclick="calcul()" >Calculer</button>
+<div class="ligne"></div>
+   <br /><br />
+</div>
+<div class="calories">
+  <label id="demo" class="calories2">Veuilliez entrer vos informations</label>
+</div>
+  <br /><br />
+  <label id="demo2" style="color:#0f661b;margin-left:140px;font-size:large"></label>
+<input id="pouce"  class="pouce" type="hidden"></input>
+<label id="pouce2" class="pouce2"></label>
+<label class="erreur4" id="erreur4"></label>
+<script>
+    var z;
+    function metrique() {document.getElementById("metrique").style.borderColor="#6a9ef1 #6a9ef1 #b0e0e6 #6a9ef1";
+     document.getElementById("imperial").style.borderColor="#6a9ef1";
+     document.getElementById("pouce").type='hidden'
+     document.getElementById("T").style.width='201px'
+     document.getElementById("pouce2").innerHTML =" "
+     document.getElementById("T2").innerHTML ="Tailles (cm) :"
+     document.getElementById("P2").innerHTML ="Poids (Kg) :"
+     z=1}
+
+    function imperial() {document.getElementById("imperial").style.borderColor="#6a9ef1 #6a9ef1 #b0e0e6 #6a9ef1";
+     document.getElementById("metrique").style.borderColor="#6a9ef1";
+     document.getElementById("pouce").type='text'
+     document.getElementById("T").style.width='60px'
+     document.getElementById("pouce2").innerHTML ="pouces:"
+     document.getElementById("T2").innerHTML ="Tailles  pieds :"
+     document.getElementById("P2").innerHTML ="Poids (lbs) :"
+     z=2}
+
+function calcul() {
+  var Poids,Taille,Age,Niveaux,Objectif,Aliment,sum,pouce;
+
+  Poids = Number(document.getElementById("P").value);
+  if (Poids==0 || isNaN(Poids)) {document.getElementById("erreur1").innerHTML = '*';}
+  else {document.getElementById("erreur1").innerHTML = '';}
+
+  Taille= Number(document.getElementById("T").value);
+  if (Taille==0|| isNaN(Taille)) {document.getElementById("erreur2").innerHTML = '*';}
+  else {document.getElementById("erreur2").innerHTML = '';}
+
+  Age= Number(document.getElementById("A").value);
+  if (Age==0|| isNaN(Age)) {document.getElementById("erreur3").innerHTML = '*';}
+  else {document.getElementById("erreur3").innerHTML = '';}
+
+  Niveaux= document.getElementById("N").value;
+  Objectif= document.getElementById("O").value;
+  Aliment= document.getElementById("Al").value;
+  document.getElementById("demo2").innerHTML = Aliment;
+
+if (z==2)
+    {pouce = Number(document.getElementById("pouce").value);
+    if (pouce==0 || isNaN(pouce)) {document.getElementById("erreur4").innerHTML = '*';}
+    else {document.getElementById("erreur4").innerHTML = '';}}
+
+    if (document.getElementById('Homme').checked) {
+        sum = Math.round(0.453592*13.707 * Poids + 0.3048*492.3 * (Taille +pouce/12) - 6.673 * Age + 77.607)}
+    else {
+        sum = Math.round(0.453592*9.74 * Poids + 0.3048*172.9 * (Taille +pouce/12) - 4.737 * Age + 667.051)}
+
+    sum = Math.round(sum * Niveaux * Objectif)
+    if (Age == 0 || Taille == 0 || Poids == 0 || isNaN(sum)) {
+        document.getElementById("demo").innerHTML = "Veuilliez entrer vos informations";}
+    else {
+        document.getElementById("demo").innerHTML = "Vous devez consomer " + sum + " calories aujourd'hui";
+    }
+if (z==1){
+    if (document.getElementById('Homme').checked) {
+        sum = Math.round(13.707 * Poids + 0.01 * 492.3 * Taille - 6.673 * Age + 77.607)}
+    else {
+        sum = Math.round(9.74 * Poids + 0.01 * 172.9 * Taille - 4.737 * Age + 667.051)}
+
+    sum = Math.round(sum * Niveaux * Objectif)
+    if (Age == 0 || Taille == 0 || Poids == 0 || isNaN(sum)) {
+        document.getElementById("demo").innerHTML = "Veuilliez entrer vos informations";}
+    else {
+        document.getElementById("demo").innerHTML = "Vous devez consomer " + sum + " calories aujourd'hui";
+    }
+}
+}
+</script>
+</body>
+</html>
